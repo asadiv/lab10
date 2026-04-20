@@ -32,6 +32,12 @@ jobs:
       - name: Verify health endpoint exists
         run: python -c "from app import app; assert '/api/health' in [r.rule for r in app.url_map.iter_rules()]"
 
+      - name: Use secret safely
+        run: echo "Secret loaded successfully"
+        env:
+          LAB_SECRET: ${{ secrets.LAB_SECRET }}
+
+
   build-docker:
     name: Build Docker Image
     runs-on: ubuntu-latest
