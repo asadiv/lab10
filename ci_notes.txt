@@ -1,0 +1,7 @@
+If the test job fails, the build-docker job will NOT run.
+
+This is because build-docker depends on the test job using "needs: test".
+GitHub Actions stops dependent jobs when a required job fails.
+
+This is important because it prevents building and deploying a broken application.
+It ensures only tested and working code is packaged into Docker images.

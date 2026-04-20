@@ -32,10 +32,15 @@ jobs:
       - name: Verify health endpoint exists
         run: python -c "from app import app; assert '/api/health' in [r.rule for r in app.url_map.iter_rules()]"
 
+      - name: Use secret safely
+        run: echo "Secret loaded successfully"
+        env:
+          LAB_SECRET: ${{ secrets.LAB_SECRET }}
+
   build-docker:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: test  # Only run if tests pass
+    needs: test
 
     steps:
       - name: Checkout repository
@@ -51,3 +56,12 @@ jobs:
           curl --fail http://localhost:5000/api/health
           docker stop test-container
           docker rm test-container
+
+  report:
+    name: Final Report
+    runs-on: ubuntu-latest
+    needs: build-docker
+
+    steps:
+      - name: Print summary
+        run: echo "Pipeline complete for commit: ${{ github.sha }}"
