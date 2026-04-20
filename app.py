@@ -11,7 +11,7 @@ next_id = 1
 # Health check
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({'status': 'ok'}), 200
+    return jsonify({'status': 'ok'}), 500
 
 
 # Get all students
